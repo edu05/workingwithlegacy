@@ -35,13 +35,28 @@ public class TripServiceTest {
     }
 
     @Test
-    void shouldReturnTripsWhenUserAndLoggedInUserAreFriends() {
+    void shouldReturnEmptyTripsListWhenUserAndLoggedInUserAreJustFriends() {
         loggedInUser = new User(); //representa a Edu
         Trip tripToSanFran = new Trip();
         Trip tripToThailand = new Trip();
         trips = List.of(tripToSanFran, tripToThailand);
         User javi = anUser()
                 .withFriends(List.of(loggedInUser))
+                .build();
+
+        List<Trip> tripsDeJavi = new TestableTripService().getTripsByUser(javi);
+
+        assertThat(tripsDeJavi.size(), is(0));
+    }
+
+    @Test
+    void shouldReturnTripsWhenUserAndLoggedInUserAreCloseFriends() {
+        loggedInUser = new User(); //representa a Edu
+        Trip tripToSanFran = new Trip();
+        Trip tripToThailand = new Trip();
+        trips = List.of(tripToSanFran, tripToThailand);
+        User javi = anUser()
+                .withCloseFriends(List.of(loggedInUser))
                 .build();
 
         List<Trip> tripsDeJavi = new TestableTripService().getTripsByUser(javi);
