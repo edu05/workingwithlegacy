@@ -12,5 +12,19 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TripServiceTest {
-	
+
+    @Test
+    public void shouldThrowExceptionWhenUserIsNotLoggedIn() {
+        assertThrows(UserNotLoggedInException.class, () -> {
+            new TestableTripService().getTripsByUser(null);
+        });
+    }
+
+    private static class TestableTripService extends TripService {
+        @Override
+        protected User getLoggedUser() {
+            return null;
+        }
+    }
+
 }

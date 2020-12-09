@@ -1,0 +1,7 @@
+@Test
+    public void shouldThrowExceptionWhenUserIsNotLoggedIn() {
+        loggedInUser = null;
+        assertThrows(UserNotLoggedInException.class, () -> {
+            new TestableTripService().getTripsByUser(null);
+        });
+    }
