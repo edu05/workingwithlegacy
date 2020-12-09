@@ -5,3 +5,12 @@
             new TestableTripService().getTripsByUser(null);
         });
     }
+
+     @Test
+        void shouldReturnEmptryTripsListWhenUserIsLoggedInButIsNotFriends() {
+            User laExDeEdu = new User();
+            loggedInUser = new User(); //representa a Edu
+            List<Trip> tripsDeLaExDeEdu = new TestableTripService().getTripsByUser(laExDeEdu);
+
+            assertThat(tripsDeLaExDeEdu.size(), is(0));
+        }

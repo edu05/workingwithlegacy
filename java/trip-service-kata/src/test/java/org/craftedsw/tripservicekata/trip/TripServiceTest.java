@@ -13,17 +13,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TripServiceTest {
 
+    private static User loggedInUser;
+
     @Test
     public void shouldThrowExceptionWhenUserIsNotLoggedIn() {
+        loggedInUser = null;
         assertThrows(UserNotLoggedInException.class, () -> {
             new TestableTripService().getTripsByUser(null);
         });
     }
 
+    @Test
+    void shouldReturnEmptryTripsListWhenUserIsLoggedInButIsNotFriends() {
+        User laExDeEdu = new User();
+        loggedInUser = new User(); //representa a Edu
+        List<Trip> tripsDeLaExDeEdu = new TestableTripService().getTripsByUser(laExDeEdu);
+
+        assertThat(tripsDeLaExDeEdu.size(), is(0));
+    }
+
     private static class TestableTripService extends TripService {
         @Override
         protected User getLoggedUser() {
-            return null;
+            return loggedInUser;
         }
     }
 
