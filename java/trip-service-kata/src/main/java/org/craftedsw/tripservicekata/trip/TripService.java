@@ -15,12 +15,11 @@ public class TripService {
             throw new UserNotLoggedInException();
         }
 
-        for (User friend : user.getCloseFriends()) {
-            if (friend.equals(loggedUser)) {
-                return findTripsByUser(user);
-            }
-        }
-        return new ArrayList<>();
+        return user.getCloseFriends().stream()
+                .filter(closeFriend -> closeFriend.equals(loggedUser))
+                .findAny()
+                .map(closeFriend -> findTripsByUser(user))
+                .orElse(new ArrayList<>());
     }
 
     protected List<Trip> findTripsByUser(User user) {
